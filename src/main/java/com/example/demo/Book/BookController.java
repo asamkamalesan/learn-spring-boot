@@ -32,9 +32,19 @@ public class BookController {
     }
 
     @PostMapping
-    public Book addBook(@RequestBody Book book) {
-        books.add(book);
-        return book;
+    public List<Book> addBook(@RequestBody List<Book> book) {
+        if (book == null || book.isEmpty()) {
+            return null;
+        }
+
+        for (Book b: book) {
+            if (b.getId() <= 0 || b.getTitle() == null || b.getAuthor() == null) {
+                return null; // Invalid book data
+            }
+
+            books.add(b);
+        }
+        return books;
     }
 
     @PutMapping("/{id}")
